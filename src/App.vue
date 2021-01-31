@@ -1,19 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header></Header>
+    <PostCard></PostCard>
     <router-link to="home">Home</router-link>
     <router-view/>
+    
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import PostCard from './components/modules/PostCard'
+import Header from './components/modules/Header'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    PostCard,
+    Header,
   }
 }
 </script>
@@ -25,6 +27,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
