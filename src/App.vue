@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header></Header>
     <PostCard></PostCard>
     <router-link to="home">Home</router-link>
     <router-view/>
@@ -9,10 +10,12 @@
 
 <script>
 import PostCard from './components/modules/PostCard'
+import Header from './components/modules/Header'
 export default {
   name: 'App',
   components: {
-    PostCard
+    PostCard,
+    Header,
   }
 }
 </script>
@@ -24,6 +27,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
