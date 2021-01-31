@@ -1,17 +1,21 @@
 <template>
     <div>
-        
+        <PostCard></PostCard>
     </div>
 </template>
 
 <script>
     import axios from "axios";
+    import PostCard from "../modules/PostCard"
     export default {
         data() {
             return {
                 ideas: [],
             }
-        },
+        }, components: {
+            PostCard,
+        }
+        ,
         mounted() {
             this.get()
         },
