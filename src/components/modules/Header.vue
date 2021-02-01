@@ -1,6 +1,7 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background:#ffffff">
+      <div class="left-contets"></div>
       <div class="container-fluid">
         <a class="navbar-brand" href="#">idealShere</a>
         <button
@@ -14,27 +15,31 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        
+        <div class="collapse navbar-collapse " id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-                <router-link to="home" class="nav-link active" aria-current="page">Home</router-link><!--//TODO: aタグだとリクエスト出しちゃうからRouterに書き換える<-->
+                <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
             </li>
             <li class="nav-item">
-                <router-link to="home" class="nav-link active" aria-current="page">マイページ</router-link>
+                <router-link to="/" class="nav-link active" aria-current="page">マイページ</router-link>
             </li>
             <li class="nav-item">
-                <router-link to="home" class="nav-link active" aria-current="page">通知</router-link>
+                <router-link to="/" class="nav-link active" aria-current="page">通知</router-link>
             </li>
             <li class="nav-item">
-                <router-link to="home" class="nav-link active" aria-current="page">DM</router-link>
+                <router-link to="/" class="nav-link active" aria-current="page">DM</router-link>
             </li>
           </ul>
         </div>
+        
       </div>
+      
     </nav>
   </div>
 </template>
 
 <script></script>
 
-<style></style>
+<style>
+</style>

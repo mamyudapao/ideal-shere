@@ -45,5 +45,8 @@ export default {
 </script>
 
 <style>
-
+    .card {
+        padding-top: 10px;
+        margin-top: 10px;
+    }
 </style>

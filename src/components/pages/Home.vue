@@ -1,12 +1,14 @@
 <template>
     <div>
         <PostCard></PostCard>
+        <PostForm></PostForm>
     </div>
 </template>
 
 <script>
     import axios from "axios";
     import PostCard from "../modules/PostCard"
+    import PostForm from "../modules/PostForm"
     export default {
         data() {
             return {
@@ -14,6 +16,7 @@
             }
         }, components: {
             PostCard,
+            PostForm,
         }
         ,
         mounted() {
@@ -31,6 +34,5 @@
 </script>
 
 <style>
-
-
+    
 </style>
