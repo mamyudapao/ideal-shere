@@ -4,10 +4,16 @@ import router from './router'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faFontAwesome } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUserSecret)
+require('jquery/dist/jquery');
+require('popper.js/dist/umd/popper');
+require('bootstrap/dist/js/bootstrap');
+
+library.add(faPlusSquare)
+library.add(faFontAwesome)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
