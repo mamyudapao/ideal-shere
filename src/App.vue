@@ -1,20 +1,16 @@
 <template>
   <div id="app">
     <Header></Header>
-    <PostCard></PostCard>
-    <router-link to="home">Home</router-link>
     <router-view/>
     
   </div>
 </template>
 
 <script>
-import PostCard from './components/modules/PostCard'
 import Header from './components/modules/Header'
 export default {
   name: 'App',
   components: {
-    PostCard,
     Header,
   }
 }
@@ -22,10 +18,16 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans JP', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
+
+body {
+  background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+}
+
+
 </style>

@@ -1,9 +1,10 @@
 <template>
     <div class="container">
-        <div class="card">
+        <div class="card" v-for="post in posts" :key="post.id">
             <div class="card-body">
-              <h5 class="card-title">{{ posts[0].title }}</h5>
-              <p class="card-text">{{ posts[0].detail }}</p>
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text">{{ post.detail }}</p>
+              <p class="card-text">{{ post.user_id }}</p> <!--TODO user_idからユーザー名に変更する。 -->
               <a href="#" class="btn btn-primary">詳細をみる</a>
             </div>
           </div>
@@ -44,5 +45,8 @@ export default {
 </script>
 
 <style>
-
+    .card {
+        padding-top: 10px;
+        margin-top: 10px;
+    }
 </style>
