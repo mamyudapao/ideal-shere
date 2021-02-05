@@ -51,7 +51,7 @@
         <div class="nav-right">
 
         <PostForm></PostForm>
-        <router-link to="/login" class="nav-link active" id="signin-icon"><font-awesome-icon :icon="['fas', 'sign-in-alt']" /></router-link>
+        <router-link to="/signin" class="nav-link active" id="signin-icon"><font-awesome-icon :icon="['fas', 'sign-in-alt']" /></router-link>
         </div>
       </div>
     </nav>
