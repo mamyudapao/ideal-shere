@@ -47,24 +47,37 @@
           </div>
         </div>
 
-          <!-- -->
-          <PostForm></PostForm>
+        <!-- form modalでホーム画面内に出したいので、routerではなくコンポーネントを入れる。 -->
+        <div class="nav-right">
+
+        <PostForm></PostForm>
+        <router-link to="/login" class="nav-link active" id="signin-icon"><font-awesome-icon :icon="['fas', 'sign-in-alt']" /></router-link>
         </div>
+      </div>
     </nav>
   </div>
 </template>
 
 <script>
-import PostForm from './PostForm'
+import PostForm from "./PostForm";
 export default {
   components: {
-    PostForm
-  }
-}
+    PostForm,
+  },
+};
 </script>
 
 <style>
 #navbar-list {
   padding-left: 10rem;
+}
+
+.nav-right {
+  display: flex;
+}
+
+#signin-icon {
+  color: black;
+  padding-top: 8px;
 }
 </style>
