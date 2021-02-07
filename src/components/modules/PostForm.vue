@@ -105,6 +105,11 @@ export default {
       member_number: "",
     };
   },
+  computed: {
+    access_token() {
+      return this.$store.getters.access_token;
+    }
+  },
   methods: {
     post: function() {
       let toString_title = String(this.title);
@@ -120,6 +125,10 @@ export default {
           category: toString_category,
           member_number: toString_member_number,
           invitation: toString_invitation,
+        }, {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`
+          }
         })
         .then(function(response) {
           console.log(response.data);

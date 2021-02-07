@@ -4,7 +4,7 @@
       class="navbar navbar-expand-lg navbar-light"
       style="background:#ffffff"
     >
-      <div class="container-fluid">
+      <div class="container-fluid" id="header-flex">
         <div class="left-contents">
           <a class="navbar-brand" href="#">idealShere</a>
           <button
@@ -48,10 +48,14 @@
         </div>
 
         <!-- form modalでホーム画面内に出したいので、routerではなくコンポーネントを入れる。 -->
-        <div class="nav-right">
-
-        <PostForm></PostForm>
-        <router-link to="/signin" class="nav-link active" id="signin-icon"><font-awesome-icon :icon="['fas', 'sign-in-alt']" /></router-link>
+        <div class="nav-right" v-if="!isAuthenticated">
+          <PostForm></PostForm>
+          <router-link to="/signin" class="nav-link active" id="signin-icon"
+            ><font-awesome-icon :icon="['fas', 'user-plus']"
+          /></router-link>
+          <router-link to="/login" class="nav-link active" id="login-icon"
+            ><font-awesome-icon :icon="['fas', 'sign-in-alt']"
+          /></router-link>
         </div>
       </div>
     </nav>
@@ -64,12 +68,16 @@ export default {
   components: {
     PostForm,
   },
+  computed: {
+    isAutenticated() {
+      return this.$store.getters.access_token !== null;
+    },
+  },
 };
 </script>
 
 <style>
 #navbar-list {
-  padding-left: 10rem;
 }
 
 .nav-right {
@@ -77,6 +85,11 @@ export default {
 }
 
 #signin-icon {
+  color: black;
+  padding-top: 8px;
+}
+
+#login-icon {
   color: black;
   padding-top: 8px;
 }
