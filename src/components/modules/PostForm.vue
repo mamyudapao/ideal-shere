@@ -49,13 +49,6 @@
                   placeholder="アイディアの詳細説明"
                   v-model="detail"
                 />
-                <label for="oldday">カテゴリー</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="カテゴリー"
-                  v-model="category"
-                />
                 <label for="oldday">募集の有無</label>
                 <input
                   type="checkbox"
@@ -114,7 +107,6 @@ export default {
     post: function() {
       let toString_title = String(this.title);
       let toString_detail = String(this.detail);
-      let toString_category = String(this.category);
       let toString_invitation = String(this.invitation);
       let toString_member_number = String(this.member_number);
       axios
@@ -123,7 +115,6 @@ export default {
           {
             title: toString_title,
             detail: toString_detail,
-            category: toString_category,
             member_number: toString_member_number,
             invitation: toString_invitation,
           },

@@ -4,7 +4,7 @@
       <div class="card-body">
         <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text">{{ post.detail }}</p>
-        <p class="card-text">{{ post.user_id }}</p>
+        <p class="card-text">{{ post.author }}</p>
         <!--TODO user_idからユーザー名に変更する。 -->
         <router-link :to="`detail/${post.id}`">詳細を見る</router-link>
         <router-view></router-view>

@@ -10,12 +10,6 @@
       {{ article.author }}
     </h2>
     <h1>{{ article.title }}</h1>
-    <div class="tags">
-      <div class="tag">Python</div>
-      <div class="tag">Kotlin</div>
-      <div class="tag">Web開発</div>
-      <div class="tag">タグ</div>
-    </div>
 
     <p class="container article-detail">
       {{ article.detail }}
