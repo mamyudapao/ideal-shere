@@ -108,7 +108,7 @@ export default {
   computed: {
     access_token() {
       return this.$store.getters.access_token;
-    }
+    },
   },
   methods: {
     post: function() {
@@ -118,18 +118,21 @@ export default {
       let toString_invitation = String(this.invitation);
       let toString_member_number = String(this.member_number);
       axios
-        .post("http://127.0.0.1:8000/api/posts/", {
-          user_id: "1",
-          title: toString_title,
-          detail: toString_detail,
-          category: toString_category,
-          member_number: toString_member_number,
-          invitation: toString_invitation,
-        }, {
-          headers: {
-            Authorization: `Bearer ${this.access_token}`
+        .post(
+          "http://127.0.0.1:8000/api/posts/",
+          {
+            title: toString_title,
+            detail: toString_detail,
+            category: toString_category,
+            member_number: toString_member_number,
+            invitation: toString_invitation,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.access_token}`,
+            },
           }
-        })
+        )
         .then(function(response) {
           console.log(response.data);
         });

@@ -4,20 +4,21 @@ import Home from './components/pages/Home';
 import Login from './components/modules/Login';
 import Register from './components/modules/Register';
 import store from './store';
+import Article from './components/pages/Article'
+
 
 Vue.use(Router)
 
 export default new Router({
     mode: 'history',
-    routes: [
-        { 
+    routes: [{
             path: '/',
             name: 'home',
             component: Home,
             beforeEnter(to, from, next) {
-                if(store.getters.access_token) {
+                if (store.getters.access_token) {
                     next();
-                }else {
+                } else {
                     next('login');
                 }
             }
@@ -27,9 +28,9 @@ export default new Router({
             name: 'login',
             component: Login,
             beforeEnter(to, from, next) {
-                if(store.getters.access_token) {
+                if (store.getters.access_token) {
                     next('/');
-                }else {
+                } else {
                     next();
                 }
             }
@@ -39,13 +40,17 @@ export default new Router({
             name: 'signin',
             component: Register,
             beforeEnter(to, from, next) {
-                if(store.getters.access_token) {
+                if (store.getters.access_token) {
                     next('/');
-                }else {
+                } else {
                     next();
                 }
             }
+        },
+        {
+            path: '/detail/:id',
+            component: Article,
+            name: 'detail',
         }
     ]
 })
-

@@ -48,14 +48,10 @@
         </div>
 
         <!-- form modalでホーム画面内に出したいので、routerではなくコンポーネントを入れる。 -->
-        <div class="nav-right" v-if="!isAuthenticated">
+        <div class="nav-right">
           <PostForm></PostForm>
-          <router-link to="/signin" class="nav-link active" id="signin-icon"
-            ><font-awesome-icon :icon="['fas', 'user-plus']"
-          /></router-link>
-          <router-link to="/login" class="nav-link active" id="login-icon"
-            ><font-awesome-icon :icon="['fas', 'sign-in-alt']"
-          /></router-link>
+          <button type="button" @click="logout" id="logout-button"><font-awesome-icon :icon="['fas', 'sign-out-alt']"
+          /></button>
         </div>
       </div>
     </nav>
@@ -73,6 +69,11 @@ export default {
       return this.$store.getters.access_token !== null;
     },
   },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+    }
+  }
 };
 </script>
 
@@ -92,5 +93,10 @@ export default {
 #login-icon {
   color: black;
   padding-top: 8px;
+}
+
+#logout-button {
+  border: none;
+  background: transparent;
 }
 </style>
