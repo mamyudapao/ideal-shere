@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <LoggedInHeader v-if="isAuthenticated"></LoggedInHeader>
+    <LoggedOutHeader v-else></LoggedOutHeader>
     <router-view/>
     
   </div>
 </template>
 
 <script>
-import Header from './components/modules/Header'
+import LoggedInHeader from './components/modules/LoggedInHeader'
+import LoggedOutHeader from './components/modules/LoggedOutHeader'
 export default {
   name: 'App',
   components: {
-    Header,
+    LoggedInHeader,
+    LoggedOutHeader
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.access_token !== null;
+    }
   }
 }
 </script>
@@ -29,5 +37,13 @@ body {
   background: linear-gradient(to right top, #65dfc9, #6cdbeb);
 }
 
+button{
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        padding: 0;
+        appearance: none;
+}
 
 </style>
