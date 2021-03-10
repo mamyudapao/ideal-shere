@@ -127,6 +127,7 @@ export default {
         .then(function(response) {
           console.log(response.data);
         });
+          this.$emit('tell-header-to-refresh');
     },
   },
 };

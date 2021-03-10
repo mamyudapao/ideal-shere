@@ -1,0 +1,14 @@
+これからやること
+①HomeでPostしたら画面更新 
+まず、postFormコンポーネントでpostしたあとにemitリレー（PostForm→LoggedInHeader→App）
+そこからthis.$refs.child.$emit('child_method')でpostCardにgetさせなおす。
+方針変更
+Hedearにpostを置かない。HomeにFormを用意してそこからPostすることにする。
+Headerからpostのモーダルボタンを消して
+homeにformを置く。
+結局最初の方針でうまくいった！！！！！
+②postで画像投稿
+③画像表示
+④マイページ実装
+⑤DM機能実装
+⑥コメントに画像機能

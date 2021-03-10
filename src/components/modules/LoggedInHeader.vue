@@ -49,7 +49,7 @@
 
         <!-- form modalでホーム画面内に出したいので、routerではなくコンポーネントを入れる。 -->
         <div class="nav-right">
-          <PostForm></PostForm>
+          <PostForm v-on:tell-header-to-refresh="refreshPostCard"></PostForm>
           <button type="button" @click="logout" id="logout-button"><font-awesome-icon :icon="['fas', 'sign-out-alt']"
           /></button>
         </div>
@@ -70,9 +70,12 @@ export default {
     },
   },
   methods: {
+    refreshPostCard: function() {
+      this.$emit('tell-app-to-refresh');
+    },
     logout() {
       this.$store.dispatch('logout');
-    }
+    },
   }
 };
 </script>
