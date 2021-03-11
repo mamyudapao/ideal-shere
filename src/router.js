@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './components/pages/Home';
+import Home from './pages/Home';
 import Login from './components/modules/Login';
 import Register from './components/modules/Register';
 import store from './store';
-import Article from './components/pages/Article'
+import Article from './pages/Article'
 
 
 Vue.use(Router)
@@ -15,6 +15,7 @@ export default new Router({
             path: '/',
             name: 'home',
             component: Home,
+            props: true,
             beforeEnter(to, from, next) {
                 if (store.getters.access_token) {
                     next();

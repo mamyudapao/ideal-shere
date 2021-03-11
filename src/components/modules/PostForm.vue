@@ -40,21 +40,21 @@
                   type="text"
                   class="form-control"
                   placeholder="アイディアのタイトル"
-                  v-model="title"
+                  v-model="post.title"
                 />
                 <label for="oldday">アイディアの詳細説明</label>
                 <input
                   type="text"
                   class="form-control"
                   placeholder="アイディアの詳細説明"
-                  v-model="detail"
+                  v-model="post.detail"
                 />
                 <label for="oldday">募集の有無</label>
                 <input
                   type="checkbox"
                   class="form-control"
                   placeholder="募集の有無"
-                  v-model="invitation"
+                  v-model="post.invitation"
                   :checked="true"
                   :unchecked="false"
                 />
@@ -63,7 +63,7 @@
                   type="number"
                   class="form-control"
                   placeholder="募集人数"
-                  v-model="member_number"
+                  v-model="post.member_number"
                 />
               </div>
             </div>
@@ -73,10 +73,10 @@
                 class="btn btn-secondary"
                 data-dismiss="modal"
               >
-                Close
+                閉じる
               </button>
-              <button @click="post" class="btn btn-primary">
-                Save changes
+              <button @click="send_post" class="btn btn-primary">
+                送信
               </button>
             </div>
           </div>
@@ -87,15 +87,10 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
-      title: "",
-      detail: "",
-      category: "",
-      invitation: false,
-      member_number: "",
+      post: [],
     };
   },
   computed: {
@@ -104,30 +99,9 @@ export default {
     },
   },
   methods: {
-    post: function() {
-      let toString_title = String(this.title);
-      let toString_detail = String(this.detail);
-      let toString_invitation = String(this.invitation);
-      let toString_member_number = String(this.member_number);
-      axios
-        .post(
-          "http://127.0.0.1:8000/api/posts/",
-          {
-            title: toString_title,
-            detail: toString_detail,
-            member_number: toString_member_number,
-            invitation: toString_invitation,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${this.access_token}`,
-            },
-          }
-        )
-        .then(function(response) {
-          console.log(response.data);
-        });
-    },
+    send_post: function() {
+      this.$emit('emit-post', this.post);
+    }
   },
 };
 </script>

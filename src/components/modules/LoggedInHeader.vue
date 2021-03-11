@@ -49,9 +49,10 @@
 
         <!-- form modalでホーム画面内に出したいので、routerではなくコンポーネントを入れる。 -->
         <div class="nav-right">
-          <PostForm></PostForm>
-          <button type="button" @click="logout" id="logout-button"><font-awesome-icon :icon="['fas', 'sign-out-alt']"
-          /></button>
+          <PostForm @emit-post="send_post($event)"></PostForm>
+          <button type="button" @click="logout" id="logout-button">
+            <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
+          </button>
         </div>
       </div>
     </nav>
@@ -60,7 +61,13 @@
 
 <script>
 import PostForm from "./PostForm";
+import axios from "axios";
 export default {
+  data() {
+    return {
+      post: [],
+    };
+  },
   components: {
     PostForm,
   },
@@ -68,12 +75,33 @@ export default {
     isAutenticated() {
       return this.$store.getters.access_token !== null;
     },
+    access_token() {
+      return this.$store.getters.access_token;
+    },
   },
   methods: {
     logout() {
-      this.$store.dispatch('logout');
-    }
-  }
+      this.$store.dispatch("logout");
+    },
+    send_post: function(event) {
+      this.post = event;
+      axios.post(
+        "http://127.0.0.1:8000/api/posts/",
+        {
+          title: this.post.title,
+          detail: this.post.detail,
+          member_number: this.post.member_number,
+          invitation: this.post.invitation,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        }
+      );
+      this.$emit("refresh-articles");
+    },
+  },
 };
 </script>
 
