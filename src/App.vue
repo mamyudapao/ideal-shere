@@ -41,7 +41,7 @@ export default {
 }
 
 body {
-  background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+  background: #6cdbeb !important;
 }
 
 button {

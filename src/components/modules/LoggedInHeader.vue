@@ -29,7 +29,7 @@
                 >
               </li>
               <li class="nav-item">
-                <router-link to="/" class="nav-link active" aria-current="page"
+                <router-link :to="`/mypage/${$store.getters.user_id}`" class="nav-link active" aria-current="page"
                   >マイページ</router-link
                 >
               </li>
@@ -77,7 +77,7 @@ export default {
     },
     access_token() {
       return this.$store.getters.access_token;
-    },
+    }
   },
   methods: {
     logout() {

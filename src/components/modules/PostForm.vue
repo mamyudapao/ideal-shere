@@ -75,7 +75,7 @@
               >
                 閉じる
               </button>
-              <button @click="send_post" class="btn btn-primary">
+              <button @click="send_post" class="btn btn-primary" data-dismiss="modal">
                 送信
               </button>
             </div>

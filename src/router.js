@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from './pages/Home';
 import Login from './components/modules/Login';
 import Register from './components/modules/Register';
+import MyPage from './pages/MyPage';
 import store from './store';
 import Article from './pages/Article'
 
@@ -52,6 +53,11 @@ export default new Router({
             path: '/detail/:id',
             component: Article,
             name: 'detail',
+        },
+        {
+            path: '/mypage/:id',
+            component: MyPage,
+            name: 'mypage'
         }
     ]
 })
