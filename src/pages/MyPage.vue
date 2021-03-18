@@ -1,57 +1,64 @@
 <template>
   <div class="parent-profile">
     <div class="image-block">
-    <img :src="user.image">
+      <input
+        type="file"
+        ref="input"
+        id="fileInput"
+        @input="$emit('profile_image', $event.target.files[0])"
+      />
+      <button @click="btnClick">
+        <img :src="user.image" />
+      </button>
     </div>
     <div class="profile-block">
-    <p>{{ user.username }}</p>
-    <h2>自己紹介文</h2>
-    <p>{{ user.introduction }}</p>
+      <p>{{ user.username }}</p>
+      <h2>自己紹介文</h2>
+      <p>{{ user.introduction }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
+  props: ["user"],
   data() {
     return {
-      user: null,
+      input_file: null, //画像が来る
     };
   },
   mounted() {
-    this.getUser();
+    this.$emit("get_user");
   },
   methods: {
-    getUser: function() {
-      axios
-        .get(`http://localhost:8000/users/${this.$route.params.id}`)
-        .then((response) => {
-          console.log(response.data);
-          this.user = response.data;
-        });
+    btnClick: function() {
+      this.$refs.input.click();
     },
   },
 };
 </script>
 
 <style>
-  .parent-profile {
-    display: flex;
-    justify-content: center;
-  }
+.parent-profile {
+  display: flex;
+  justify-content: center;
+}
 
-  .image-block {
-    margin-top: 150px;
-  }
+.image-block {
+  margin-top: 150px;
+}
 
-  .image-block img {
-    height: 200px;
-    width: 200px;;
-    border-radius: 50%;
-  }
+.image-block input {
+  display: none;
+}
 
-  .profile-block {
-    width: 50%;
-  }
+.image-block img {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+}
+
+.profile-block {
+  width: 50%;
+}
 </style>
