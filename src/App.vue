@@ -9,6 +9,7 @@
       ref="home"
       @profile_image="updateUserIcon"
       @get_user="getUser()"
+      @update_profile="updateProfile"
       :user="user"
     ></router-view>
   </div>
@@ -27,7 +28,7 @@ export default {
   data() {
     return {
       user: null,
-    }
+    };
   },
   computed: {
     isAuthenticated() {
@@ -41,8 +42,8 @@ export default {
     refresh_article: function() {
       this.$refs.home.get();
     },
-    getUser: function() {
-      axios
+    getUser: async function() {
+      await axios
         .get(`http://localhost:8000/users/${this.$route.params.id}`)
         .then((response) => {
           console.log(response.data);
@@ -66,7 +67,24 @@ export default {
         .then((response) => {
           console.log(response);
         });
-        this.getUser();
+      this.getUser();
+    },
+    updateProfile: async function(event) {
+      console.log(event);
+      axios.patch(
+        `http://localhost:8000/users/${this.$store.getters.user_id}`,
+        {
+          username: event.username,
+          introduction: event.introduction,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        }
+      ).then((response) => {
+        console.log(response.data);
+      });
     },
   },
 };

@@ -1,21 +1,41 @@
 <template>
   <div class="parent-profile">
-    <div class="image-block">
+    <input
+      type="file"
+      ref="input"
+      id="file-input"
+      @input="$emit('profile_image', $event.target.files[0])"
+    />
+    <button @click="btnClick" id="profile-image-button">
+      <img :src="user.image" id="profile-image" />
+    </button>
+    <div class="form-group">
+      <h1 v-if="!username_edit" @click="username_edit = true">
+        {{ username }}
+      </h1>
       <input
-        type="file"
-        ref="input"
-        id="fileInput"
-        @input="$emit('profile_image', $event.target.files[0])"
+        v-if="username_edit"
+        type="text"
+        class="form-control"
+        id="username_input"
+        :placeholder="user.username"
+        v-model="username"
+        @blur="username_edit = false"
       />
-      <button @click="btnClick">
-        <img :src="user.image" />
-      </button>
     </div>
-    <div class="profile-block">
-      <p>{{ user.username }}</p>
-      <h2>自己紹介文</h2>
-      <p>{{ user.introduction }}</p>
-    </div>
+    <p v-if="!introduction_edit" @click="introduction_edit = true">
+      {{ introduction }}
+    </p>
+    <input
+      v-if="introduction_edit"
+      type="text"
+      class="form-control"
+      id="username_input"
+      :placeholder="user.introduction"
+      v-model="introduction"
+      @blur="introduction_edit = false"
+    />
+    <button class="btn btn-primary" id="edit_save" @click="updateUserProfile">Save</button>
   </div>
 </template>
 
@@ -24,41 +44,62 @@ export default {
   props: ["user"],
   data() {
     return {
-      input_file: null, //画像が来る
+      input_file: null,
+      username_edit: false,
+      introduction_edit: false,
+      username: null,
+      introduction: null,
+      initial_update: false,
     };
   },
-  mounted() {
-    this.$emit("get_user");
+  async beforeMount() {
+    await this.$emit("get_user");
+  },
+  updated() {
+    if (!this.initial_update) {
+      this.username = this.user.username;
+      this.introduction = this.user.introduction;
+      this.initial_update = true;
+    }
   },
   methods: {
     btnClick: function() {
       this.$refs.input.click();
     },
+    updateUserProfile: function() {
+      this.$emit('update_profile', {
+        username: this.username,
+        introduction: this.introduction,
+      });
+    }
   },
 };
 </script>
 
 <style>
 .parent-profile {
-  display: flex;
-  justify-content: center;
 }
-
-.image-block {
-  margin-top: 150px;
-}
-
-.image-block input {
+#file-input {
   display: none;
 }
 
-.image-block img {
-  height: 200px;
-  width: 200px;
+#profile-image-button {
+  display: inline;
+}
+
+#profile-image {
+  height: 250px;
+  width: 250px;
   border-radius: 50%;
 }
 
-.profile-block {
-  width: 50%;
+#username {
+  margin-top: 50px;
+}
+
+#edit_save {
+  position: relative;
+  top: 40vh;
+  left: 85vh;
 }
 </style>
