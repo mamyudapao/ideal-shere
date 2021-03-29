@@ -5,27 +5,68 @@
       @refresh-articles="refresh_article"
     ></LoggedInHeader>
     <LoggedOutHeader v-else></LoggedOutHeader>
-    <router-view ref="home"></router-view>
+    <router-view
+      ref="home"
+      @profile_image="updateUserIcon"
+      @get_user="getUser()"
+      :user="user"
+    ></router-view>
   </div>
 </template>
 
 <script>
 import LoggedInHeader from "./components/modules/LoggedInHeader";
 import LoggedOutHeader from "./components/modules/LoggedOutHeader";
+import axios from "axios";
 export default {
   name: "App",
   components: {
     LoggedInHeader,
     LoggedOutHeader,
   },
+  data() {
+    return {
+      user: null,
+    }
+  },
   computed: {
     isAuthenticated() {
       return this.$store.getters.access_token !== null;
+    },
+    access_token() {
+      return this.$store.getters.access_token;
     },
   },
   methods: {
     refresh_article: function() {
       this.$refs.home.get();
+    },
+    getUser: function() {
+      axios
+        .get(`http://localhost:8000/users/${this.$route.params.id}`)
+        .then((response) => {
+          console.log(response.data);
+          this.user = response.data;
+        });
+    },
+    updateUserIcon: async function(event) {
+      console.log(event);
+      const fd = new FormData();
+      fd.append("image", event);
+      await axios
+        .patch(
+          `http://localhost:8000/users/${this.$store.getters.user_id}`,
+          fd,
+          {
+            headers: {
+              Authorization: `Bearer ${this.access_token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        });
+        this.getUser();
     },
   },
 };
