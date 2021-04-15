@@ -3,6 +3,7 @@
     <LoggedInHeader
       v-if="isAuthenticated"
       @refresh-articles="refresh_article"
+      :notifications="notifications"
     ></LoggedInHeader>
     <LoggedOutHeader v-else></LoggedOutHeader>
     <router-view
@@ -28,7 +29,11 @@ export default {
   data() {
     return {
       user: null,
+      notifications: null,
     };
+  },
+  mounted() {
+    this.getNotifications();
   },
   computed: {
     isAuthenticated() {
@@ -71,19 +76,30 @@ export default {
     },
     updateProfile: async function(event) {
       console.log(event);
-      axios.patch(
-        `http://localhost:8000/users/${this.$store.getters.user_id}`,
-        {
-          username: event.username,
-          introduction: event.introduction,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.access_token}`,
+      axios
+        .patch(
+          `http://localhost:8000/users/${this.$store.getters.user_id}`,
+          {
+            username: event.username,
+            introduction: event.introduction,
           },
-        }
-      ).then((response) => {
-        console.log(response.data);
+          {
+            headers: {
+              Authorization: `Bearer ${this.access_token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        });
+    },
+    getNotifications: async function() {
+      axios.get(`http://localhost:8000/api/notification/`, {
+        headers: {
+          Authorization: `Bearer ${this.access_token}`,
+        },
+      }).then((response) => {
+        this.notifications = response.data;
       });
     },
   },

@@ -11,8 +11,8 @@
             class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
+            data-bs-target="#navbarNavDropDown"
+            aria-controls="navbarNavDropDown"
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
@@ -37,10 +37,28 @@
                   >マイページ</router-link
                 >
               </li>
-              <li class="nav-item">
-                <router-link to="/" class="nav-link active" aria-current="page"
-                  >通知</router-link
-                >
+              <li class="nav-item dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    通知<span class="badge bg-secondary">{{
+                      notifications.length
+                    }}</span>
+                  </a>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <div
+                      v-for="notification in notifications"
+                      :key="notification.id"
+                      class="dropdown-item"
+                    >
+                      <li>
+                        <a href="#" >{{
+                          notification.action
+                        }}</a>
+                      </li>
+                    </div>
+                  </ul>
               </li>
               <li class="nav-item">
                 <router-link to="/" class="nav-link active" aria-current="page"
@@ -60,6 +78,7 @@
         </div>
       </div>
     </nav>
+    
   </div>
 </template>
 
@@ -72,6 +91,7 @@ export default {
       post: [],
     };
   },
+  props: ["notifications"],
   components: {
     PostForm,
   },
@@ -107,7 +127,7 @@ export default {
     },
     updateUserIcon: function(event) {
       console.log(event);
-    }
+    },
   },
 };
 </script>
