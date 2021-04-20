@@ -3,6 +3,7 @@
     <LoggedInHeader
       v-if="isAuthenticated"
       @refresh-articles="refresh_article"
+      @check-notification="checkNotification"
       :notifications="notifications"
     ></LoggedInHeader>
     <LoggedOutHeader v-else></LoggedOutHeader>
@@ -33,6 +34,9 @@ export default {
     };
   },
   mounted() {
+    this.getNotifications();
+  },
+  updated() {
     this.getNotifications();
   },
   computed: {
@@ -94,13 +98,32 @@ export default {
         });
     },
     getNotifications: async function() {
-      axios.get(`http://localhost:8000/api/notification/`, {
-        headers: {
-          Authorization: `Bearer ${this.access_token}`,
+      axios
+        .get(`http://localhost:8000/api/notifications/`, {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        })
+        .then((response) => {
+          this.notifications = response.data;
+          if(Object.keys(this.notifications).length == 0) {
+            this.notifications = null;
+          }
+        });
+    },
+    checkNotification: async function(event) {
+      await axios.patch(
+        `http://localhost:8000/api/notifications/${event.id}`,
+        {
+          checked: true,
         },
-      }).then((response) => {
-        this.notifications = response.data;
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        }
+      );
+      await this.getNotifications()
     },
   },
 };

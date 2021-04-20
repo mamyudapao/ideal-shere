@@ -37,28 +37,33 @@
                   >マイページ</router-link
                 >
               </li>
-              <li class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    通知<span class="badge bg-secondary">{{
-                      notifications.length
-                    }}</span>
-                  </a>
-                  <ul
-                    class="dropdown-menu"
-                    aria-labelledby="navbarDropdownMenuLink"
+              <li>
+                <div v-if="notifications">
+                  <b-dropdown
+                    id="dropdown-1"
+                    text="通知"
+                    class="nav-item"
+                    block
+                    variant="primary"
                   >
                     <div
                       v-for="notification in notifications"
                       :key="notification.id"
-                      class="dropdown-item"
                     >
-                      <li>
-                        <a href="#" >{{
-                          notification.action
-                        }}</a>
-                      </li>
+                      <div v-if="notification.action == 'Like'">
+                        <b-dropdown-item @click="checkNotification(notification)">あなたのコメントにいいねがつきました！</b-dropdown-item>
+                      </div>
+                      <div v-else-if="notification.action == 'Comment'">
+                        <b-dropdown-item @click="checkNotification(notification)">あなたの投稿にコメントがつきました！</b-dropdown-item>
+                      </div>
                     </div>
-                  </ul>
+                  </b-dropdown>
+                </div>
+                <div v-else-if="!notifications">
+                  <li class="nav-item">
+                    <span class="nav-link">通知</span>
+                  </li>
+                </div>
               </li>
               <li class="nav-item">
                 <router-link to="/" class="nav-link active" aria-current="page"
@@ -78,13 +83,13 @@
         </div>
       </div>
     </nav>
-    
   </div>
 </template>
 
 <script>
 import PostForm from "./PostForm";
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -128,6 +133,10 @@ export default {
     updateUserIcon: function(event) {
       console.log(event);
     },
+    checkNotification: function(notification) {
+      this.$router.push(`detail/${notification.post_id}`);
+      this.$emit("check-notification", notification);
+    }
   },
 };
 </script>
