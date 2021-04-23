@@ -11,6 +11,7 @@
       ref="home"
       @profile_image="updateUserIcon"
       @get_user="getUser()"
+      @get_notifications="getNotifications"
       @update_profile="updateProfile"
       :user="user"
     ></router-view>
@@ -37,7 +38,7 @@ export default {
     this.getNotifications();
   },
   updated() {
-    this.getNotifications();
+
   },
   computed: {
     isAuthenticated() {
@@ -105,6 +106,7 @@ export default {
           },
         })
         .then((response) => {
+          console.log("get notification")
           this.notifications = response.data;
           if(Object.keys(this.notifications).length == 0) {
             this.notifications = null;

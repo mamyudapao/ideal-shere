@@ -19,6 +19,7 @@ export default {
   },
   mounted() {
     this.get();
+    this.getNotifications();
   },
   methods: {
     get: function() {
@@ -26,6 +27,9 @@ export default {
         this.articles = response.data;
       });
     },
+    getNotifications: async function() {
+      this.$emit("get_notifications");
+    }
   },
 };
 </script>
