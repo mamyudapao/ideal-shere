@@ -3,6 +3,8 @@
     <LoggedInHeader
       v-if="isAuthenticated"
       @refresh-articles="refresh_article"
+      @check-notification="checkNotification"
+      :notifications="notifications"
     ></LoggedInHeader>
     <LoggedOutHeader v-else></LoggedOutHeader>
     <router-view
@@ -28,7 +30,14 @@ export default {
   data() {
     return {
       user: null,
+      notifications: null,
     };
+  },
+  mounted() {
+    this.getNotifications();
+  },
+  updated() {
+    this.getNotifications();
   },
   computed: {
     isAuthenticated() {
@@ -71,20 +80,50 @@ export default {
     },
     updateProfile: async function(event) {
       console.log(event);
-      axios.patch(
-        `http://localhost:8000/users/${this.$store.getters.user_id}`,
+      axios
+        .patch(
+          `http://localhost:8000/users/${this.$store.getters.user_id}`,
+          {
+            username: event.username,
+            introduction: event.introduction,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.access_token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        });
+    },
+    getNotifications: async function() {
+      axios
+        .get(`http://localhost:8000/api/notifications/`, {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        })
+        .then((response) => {
+          this.notifications = response.data;
+          if(Object.keys(this.notifications).length == 0) {
+            this.notifications = null;
+          }
+        });
+    },
+    checkNotification: async function(event) {
+      await axios.patch(
+        `http://localhost:8000/api/notifications/${event.id}`,
         {
-          username: event.username,
-          introduction: event.introduction,
+          checked: true,
         },
         {
           headers: {
             Authorization: `Bearer ${this.access_token}`,
           },
         }
-      ).then((response) => {
-        console.log(response.data);
-      });
+      );
+      await this.getNotifications()
     },
   },
 };

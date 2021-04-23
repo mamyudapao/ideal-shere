@@ -161,6 +161,7 @@ export default {
           {
             content: this.send_comment,
             likes: null,
+            post_id: this.$route.params.id
           },
           {
             headers: {
@@ -177,7 +178,9 @@ export default {
       await axios
         .post(
           `http://127.0.0.1:8000/api/comments/${comment.id}/likes`,
-          {},
+          {
+            post_id: this.$route.params.id
+          },
           {
             headers: {
               Authorization: `Bearer ${this.access_token}`,
