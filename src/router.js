@@ -5,7 +5,10 @@ import Login from './components/modules/Login';
 import Register from './components/modules/Register';
 import MyPage from './pages/MyPage';
 import store from './store';
-import Article from './pages/Article'
+import Article from './pages/Article';
+import GroupChat from './pages/GroupChat';
+import ChatRoom from './pages/ChatRoom';
+
 
 
 Vue.use(Router)
@@ -14,7 +17,7 @@ export default new Router({
     mode: 'history',
     routes: [{
             path: '/',
-            name: 'home',
+            name: 'Home',
             component: Home,
             props: true,
             beforeEnter(to, from, next) {
@@ -58,6 +61,16 @@ export default new Router({
             path: '/mypage/:id',
             component: MyPage,
             name: 'mypage'
-        }
+        },
+        {
+            path: '/chat-room/',
+            component: GroupChat,
+            name: 'room-list'
+        },
+        {
+            path: '/chat-room/:id',
+            component: ChatRoom,
+            name: 'chat-room'
+        },
     ]
 })

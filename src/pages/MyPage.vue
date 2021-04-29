@@ -23,8 +23,11 @@
         @blur="username_edit = false"
       />
     </div>
-    <p v-if="!introduction_edit" @click="introduction_edit = true">
+    <p v-if="!introduction_edit && introduction != null && introduction !='' " @click="introduction_edit = true">
       {{ introduction }}
+    </p>
+    <p v-else-if="!introduction_edit" @click="introduction_edit = true">
+      自己紹介を入力してください。
     </p>
     <input
       v-if="introduction_edit"

@@ -1,29 +1,34 @@
 <template>
   <div>
+    <h2 class="login-header">ログイン</h2>
     <div class="container">
-      <h2>ログイン画面へようこそ</h2>
-      <form class="form-inline">
-        <div class="mb-3">
-          <label for="username" class="form-label">ユーザーネーム</label>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            placeholder="username"
-            v-model="username"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="password1">パスワード</label>
-          <input
-            type="password"
-            id="password1"
-            placeholder="password"
-            v-model="password"
-          />
-        </div>
-        <button type="button" class="btn btn-success" @click="login">送信</button>
-      </form>
+      <div class="form-elements">
+        <label>User Name</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="username"
+          @keydown.enter.exact="keyDownEnter"
+          @keyup.enter.exact="keyUpEnter"
+        />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          v-model="password"
+          @keydown.enter.exact="keyDownEnter"
+          @keyup.enter.exact="keyUpEnter"
+        />
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="submit"
+          @click="login"
+        >
+          送信する
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -37,16 +42,56 @@ export default {
     };
   },
   methods: {
-    login() {
-      this.$store.dispatch("login", {
+    login: async function() {
+      await this.$store.dispatch("login", {
         username: this.username,
         password: this.password,
       });
+      setTimeout(() => {
+        if (
+          localStorage.getItem("user_id") == undefined ||
+          localStorage.getItem("user_id") == null
+        ) {
+          this.failedNotification();
+        }else {
+          this.successNotification();
+        }
+      }, 300);
       this.username = "";
       this.password = "";
+    },
+    keyDownEnter: function(e) {
+      e.preventDefault();
+    },
+    keyUpEnter: function(e) {
+      e.preventDefault();
+      this.login();
+    },
+    failedNotification: function() {
+      this.$toasted.show("ログインに失敗しました。");
+    },
+    successNotification: function() {
+      this.$toasted.show("ログインに成功しました！");
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.login-header {
+  margin-top: 1.5rem;
+}
+.container {
+  background-color: #ffffff;
+  width: 80%;
+  margin: 5rem auto;
+  border-radius: 1rem;
+}
+.form-elements {
+  padding: 3rem 10rem;
+}
+#submit {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+</style>

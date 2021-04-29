@@ -1,48 +1,52 @@
 <template>
   <div>
+    <h2 class="register-header">アカウント登録</h2>
     <div class="container">
-      <h2>アカウントを登録</h2>
-      <form class="form-inline">
-        <div class="mb-3">
-          <label for="username" class="form-label">ユーザーネーム</label>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            placeholder="username"
-            v-model="username"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            placeholder="example@example.com"
-            v-model="email"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="password1">パスワード</label>
-          <input
-            type="password"
-            id="password1"
-            placeholder="password"
-            v-model="password"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="password1">パスワード確認</label>
-          <input
-            type="password"
-            id="password2"
-            placeholder="passwordを再度入力"
-            v-model="password2"
-          />
-        </div>
-        <button type="button" class="btn btn-success" @click="signin">送信</button>
-      </form>
+      <div class="form-elements">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          v-model="email"
+          @keydown.enter.exact="keyDownEnter"
+          @keyup.enter.exact="keyUpEnter"
+        />
+        <label for="username">User Name</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="username"
+          @keydown.enter.exact="keyDownEnter"
+          @keyup.enter.exact="keyUpEnter"
+        />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          v-model="password"
+          @keydown.enter.exact="keyDownEnter"
+          @keyup.enter.exact="keyUpEnter"
+        />
+        <label for="password-confirm">Passwordを再度入力</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password-confirm"
+          v-model="password2"
+          @keydown.enter.exact="keyDownEnter"
+          @keyup.enter.exact="keyUpEnter"
+        />
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="submit"
+          @click="signin"
+        >
+          送信する
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -65,13 +69,53 @@ export default {
         password: this.password,
         password2: this.password,
       });
+      setTimeout(() => {
+        if (
+          localStorage.getItem("user_id") == undefined ||
+          localStorage.getItem("user_id") == null
+        ) {
+          this.failedNotification();
+        } else {
+          this.successNotification();
+        }
+      }, 500);
       this.email = "";
       this.username = "";
       this.password = "";
       this.password2 = "";
     },
+    keyDownEnter: function(e) {
+      e.preventDefault();
+    },
+    keyUpEnter: function(e) {
+      e.preventDefault();
+      this.signin();
+    },
+    failedNotification: function() {
+      this.$toasted.show("アカウント登録に失敗しました。");
+    },
+    successNotification: function() {
+      this.$toasted.show("ようこそidealShereへ！");
+    },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.register-header {
+  margin-top: 1.5rem;
+}
+.container {
+  background-color: #ffffff;
+  width: 80%;
+  margin: 5rem auto;
+  border-radius: 1rem;
+}
+.form-elements {
+  padding: 3rem 10rem;
+}
+#submit {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+</style>
