@@ -3,11 +3,11 @@
     <h2>
       <img
         class="author-image"
-        src="http://127.0.0.1:8000/media/api/posts/sample.jpg"
+        :src="'http://localhost:8000'+article.author_image"
         alt=""
         srcset=""
       />
-      {{ article.author }}
+      {{ article.author_name }}
     </h2>
     <h1>{{ article.title }}</h1>
 
@@ -15,7 +15,7 @@
       {{ article.detail }}
     </p>
 
-    <h3>募集人数: {{ article.member_number }}</h3>
+    <h3>募集目安: {{ article.member_number }}</h3>
     <h3>現在: {{ article.count_participants }}</h3>
     <hr />
     <h2 id="comment-header">コメント</h2>
@@ -53,7 +53,7 @@
       <hr />
       <div class="comments" v-for="comment in comments" :key="comment.id">
         <h4 class="username">
-          <img :src="comment.author.image" class="comment-author" />
+          <img :src="'http://localhost:8000'+comment.author_image" class="comment-author" />
           {{ comment.author }}
         </h4>
         <p>
@@ -103,10 +103,10 @@ export default {
       my_liked_list: [], //自分自身がlikeした用
     };
   },
-  created() {
-    this.getComments();
-    this.getArticle();
-    this.getMembers();
+  async mounted() {
+    await this.getArticle();
+    await this.getComments();
+    await this.getMembers();
   },
   computed: {
     access_token() {

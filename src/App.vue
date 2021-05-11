@@ -11,8 +11,14 @@
       ref="home"
       @profile_image="updateUserIcon"
       @get_user="getUser()"
+      @get_notifications="getNotifications"
       @update_profile="updateProfile"
+      @get-chat-room="getChatRoom($event)"
+      @send-message="sendMessage($event)"
+      @getUserProjects="getUser()"
       :user="user"
+      :user-projects="projects"
+      :messages="messages"
     ></router-view>
   </div>
 </template>
@@ -30,15 +36,16 @@ export default {
   data() {
     return {
       user: null,
+      projects: null,
       notifications: null,
+      messages: null,
     };
   },
   mounted() {
     this.getNotifications();
+    this.getUser();
   },
-  updated() {
-    this.getNotifications();
-  },
+  updated() {},
   computed: {
     isAuthenticated() {
       return this.$store.getters.access_token !== null;
@@ -48,15 +55,16 @@ export default {
     },
   },
   methods: {
-    refresh_article: function() {
-      this.$refs.home.get();
+    refresh_article:async function() {
+      await this.$refs.home.get();
     },
     getUser: async function() {
       await axios
-        .get(`http://localhost:8000/users/${this.$route.params.id}`)
+        .get(`http://localhost:8000/users/${this.$store.getters.user_id}`)
         .then((response) => {
           console.log(response.data);
           this.user = response.data;
+          this.projects = response.data.projects;
         });
     },
     updateUserIcon: async function(event) {
@@ -105,8 +113,9 @@ export default {
           },
         })
         .then((response) => {
+          console.log("get notification");
           this.notifications = response.data;
-          if(Object.keys(this.notifications).length == 0) {
+          if (Object.keys(this.notifications).length == 0) {
             this.notifications = null;
           }
         });
@@ -123,7 +132,49 @@ export default {
           },
         }
       );
-      await this.getNotifications()
+      await this.getNotifications();
+    },
+    getChatRoom: async function(room) {
+      console.log(room);
+      axios
+        .get(`http://127.0.0.1:8000/api/chat/`, {
+          params: {
+            room: room,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.messages = response.data;
+          this.convertUTCtoJST(this.messages);
+        });
+    },
+    convertUTCtoJST: function(item) {
+      for (let i = 0; i < Object.keys(item).length; i++) {
+        let japanTime = new Date(item[i].created_at);
+        this.messages[i].created_at = japanTime.toLocaleString({
+          timeZone: "Asia/Tokyo",
+        });
+      }
+    },
+    sendMessage: function(data) {
+      axios
+        .post(
+          `http://127.0.0.1:8000/api/chat/`,
+          {
+            message: data.message,
+            room: data.room,
+            user: this.$store.getters.user_id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.access_token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.getChatRoom(data.room);
+        });
     },
   },
 };

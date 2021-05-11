@@ -6,18 +6,7 @@
     >
       <div class="container-fluid" id="header-flex">
         <div class="left-contents">
-          <a class="navbar-brand" href="#">idealShere</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropDown"
-            aria-controls="navbarNavDropDown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+          <router-link to="/" class="navbar-brand">idealShere</router-link>
         </div>
 
         <div class="navbar-center" id="navbar-list">
@@ -66,8 +55,8 @@
                 </div>
               </li>
               <li class="nav-item">
-                <router-link to="/" class="nav-link active" aria-current="page"
-                  >DM</router-link
+                <router-link to="/chat-room" class="nav-link active" aria-current="page"
+                  >グループチャット</router-link
                 >
               </li>
             </ul>
@@ -112,9 +101,9 @@ export default {
     logout() {
       this.$store.dispatch("logout");
     },
-    send_post: function(event) {
+    send_post:async function(event) {
       this.post = event;
-      axios.post(
+      await axios.post(
         "http://127.0.0.1:8000/api/posts/",
         {
           title: this.post.title,
@@ -127,16 +116,26 @@ export default {
             Authorization: `Bearer ${this.access_token}`,
           },
         }
-      );
+      ).then(() => {
+        this.successPostNotification();
+      }).catch(() => {
+        this.failedPostNotification();
+      });
       this.$emit("refresh-articles");
     },
     updateUserIcon: function(event) {
       console.log(event);
     },
     checkNotification: function(notification) {
-      this.$router.push(`detail/${notification.post_id}`);
+      this.$router.push({name: 'detail', params: {id: notification.post_id}});
       this.$emit("check-notification", notification);
-    }
+    },
+    successPostNotification: function() {
+      this.$toasted.show("投稿に成功しました！");
+    },
+    failedPostNotification: function() {
+      this.$toasted.show("投稿に失敗しました...");
+    },
   },
 };
 </script>
