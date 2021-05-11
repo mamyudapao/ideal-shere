@@ -15,6 +15,7 @@
       @update_profile="updateProfile"
       @get-chat-room="getChatRoom($event)"
       @send-message="sendMessage($event)"
+      @getUserProjects="getUser()"
       :user="user"
       :user-projects="projects"
       :messages="messages"

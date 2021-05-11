@@ -12,9 +12,15 @@
 <script>
 export default {
     props: ['user-projects'],
+    mounted() {
+      this.getUserProjects();
+    },
     methods: {
         goToChatRoom: function(chatRoom) {
             this.$router.push(`/chat-room/${chatRoom.id}`);
+        },
+        getUserProjects: function() {
+          this.$emit('getUserProjects')
         }
     }
 }

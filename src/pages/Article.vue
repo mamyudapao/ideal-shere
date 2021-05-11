@@ -103,10 +103,10 @@ export default {
       my_liked_list: [], //自分自身がlikeした用
     };
   },
-  created() {
-    this.getComments();
-    this.getArticle();
-    this.getMembers();
+  async mounted() {
+    await this.getArticle();
+    await this.getComments();
+    await this.getMembers();
   },
   computed: {
     access_token() {
