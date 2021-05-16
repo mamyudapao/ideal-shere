@@ -1,48 +1,27 @@
 <template>
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{ posts[0].title }}</h5>
-              <p class="card-text">{{ posts[0].detail }}</p>
-              <a href="#" class="btn btn-primary">詳細をみる</a>
-            </div>
-          </div>
+  <div class="container">
+    <div class="card" v-for="article in articles" :key="article.id">
+      <div class="card-body">
+        <h5 class="card-title">{{ article.title }}</h5>
+        <p class="card-text">{{ article.detail }}</p>
+        <p class="card-text">{{ article.author }}</p>
+        <!--TODO user_idからユーザー名に変更する。 -->
+        <router-link :to="`detail/${article.id}`">詳細を見る</router-link>
+        <router-view></router-view>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-    import axios from "axios";
 export default {
-    data() {
-        return {
-            posts: [],
-            posts_titles: []
-        }
-    },
-    mounted() {
-        this.get()
-    },
-    methods: {
-        get: function() {
-        const data = []
-        axios.get('http://127.0.0.1:8000/api/posts/')
-            .then((response) => {
-                console.log(response.data)
-                console.log(response.data[0].title)
-                response.data.forEach(item => {
-                    this.posts.push(item)
-                });
-                console.log(data)
-            })
-
-
-        }
-}
-}
-
-
+  props: ['articles']
+};
 </script>
 
 <style>
-
+.card {
+  padding-top: 10px;
+  margin-top: 10px;
+}
 </style>
