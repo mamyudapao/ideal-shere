@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../api-axios";
 export default {
   data() {
     return {
@@ -116,7 +116,7 @@ export default {
   methods: {
     getArticle: async function() {
       await axios
-        .get(`http://127.0.0.1:8000/api/posts/${this.$route.params.id}`, {
+        .get(`/api/posts/${this.$route.params.id}`, {
           headers: {
             Authorization: `Bearer ${this.access_token}`,
           },
@@ -129,7 +129,7 @@ export default {
       //コメントを取ってくるための関数
       await axios
         .get(
-          `http://127.0.0.1:8000/api/posts/${this.$route.params.id}/comments`,
+          `/api/posts/${this.$route.params.id}/comments`,
           {
             headers: {
               Authorization: `Bearer ${this.access_token}`,
@@ -157,7 +157,7 @@ export default {
       // TODO: created_atを日本標準時間で投稿
       await axios
         .post(
-          `http://127.0.0.1:8000/api/posts/${this.$route.params.id}/comments`,
+          `/api/posts/${this.$route.params.id}/comments`,
           {
             content: this.send_comment,
             likes: null,
@@ -177,7 +177,7 @@ export default {
     postLike: async function(comment) {
       await axios
         .post(
-          `http://127.0.0.1:8000/api/comments/${comment.id}/likes`,
+          `/api/comments/${comment.id}/likes`,
           {
             post_id: this.$route.params.id
           },
@@ -196,7 +196,7 @@ export default {
     destroyLike: async function(comment) {
       await axios
         .patch(
-          `http://127.0.0.1:8000/api/comments/${comment.id}/likes`,
+          `/api/comments/${comment.id}/likes`,
           {},
           {
             headers: {
@@ -213,7 +213,7 @@ export default {
     participateIn: async function() {
       axios
         .post(
-          `http://localhost:8000/api/posts/${this.$route.params.id}/participants`,
+          `/api/posts/${this.$route.params.id}/participants`,
           {},
           {
             headers: {
@@ -229,7 +229,7 @@ export default {
     participateOut: async function() {
       axios
         .patch(
-          `http://localhost:8000/api/posts/${this.$route.params.id}/participants`,
+          `/api/posts/${this.$route.params.id}/participants`,
           {},
           {
             headers: {

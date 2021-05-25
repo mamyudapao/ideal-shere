@@ -77,7 +77,7 @@
 
 <script>
 import PostForm from "./PostForm";
-import axios from "axios";
+import axios from "../../api-axios.js";
 
 export default {
   data() {
@@ -104,7 +104,7 @@ export default {
     send_post:async function(event) {
       this.post = event;
       await axios.post(
-        "http://127.0.0.1:8000/api/posts/",
+        "/api/posts/",
         {
           title: this.post.title,
           detail: this.post.detail,
