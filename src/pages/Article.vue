@@ -3,7 +3,7 @@
     <h2>
       <img
         class="author-image"
-        :src="'http://localhost:8000'+article.author_image"
+        :src="'http://localhost:8000' + article.author_image"
         alt=""
         srcset=""
       />
@@ -31,29 +31,32 @@
       ></textarea>
       <button @click="postComment" class="btn btn-dark">送信</button>
       <div v-if="!article.user_has_participated">
-      <button
-        id="register-action-in-project"
-        @click="participateIn"
-        class="btn btn-dark"
-      >
-        参加する！!
-      </button>
+        <button
+          id="register-action-in-project"
+          @click="participateIn"
+          class="btn btn-dark"
+        >
+          参加する！!
+        </button>
       </div>
       <div v-else>
         <button
-        id="register-action-in-project"
-        @click="participateOut"
-        class="btn btn-dark"
-      >
-      プロジェクトから抜ける
-      </button>
+          id="register-action-in-project"
+          @click="participateOut"
+          class="btn btn-dark"
+        >
+          プロジェクトから抜ける
+        </button>
       </div>
     </div>
     <div class="commentsection container">
       <hr />
       <div class="comments" v-for="comment in comments" :key="comment.id">
         <h4 class="username">
-          <img :src="'http://localhost:8000'+comment.author_image" class="comment-author" />
+          <img
+            :src="'http://localhost:8000' + comment.author_image"
+            class="comment-author"
+          />
           {{ comment.author }}
         </h4>
         <p>
@@ -127,14 +130,11 @@ export default {
     getComments: async function() {
       //コメントを取ってくるための関数
       await axios
-        .get(
-          `/api/posts/${this.$route.params.id}/comments`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.access_token}`,
-            },
-          }
-        )
+        .get(`/api/posts/${this.$route.params.id}/comments`, {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        })
         .then((response) => {
           this.comments = response.data;
           for (let i = 0; i < Object.keys(this.comments).length; i++) {
@@ -143,7 +143,7 @@ export default {
           }
         });
     },
-    
+
     postComment: async function() {
       // TODO: created_atを日本標準時間で投稿
       await axios
@@ -152,7 +152,7 @@ export default {
           {
             content: this.send_comment,
             likes: null,
-            post_id: this.$route.params.id
+            post_id: this.$route.params.id,
           },
           {
             headers: {
@@ -170,7 +170,7 @@ export default {
         .post(
           `/api/comments/${comment.id}/likes`,
           {
-            post_id: this.$route.params.id
+            post_id: this.$route.params.id,
           },
           {
             headers: {

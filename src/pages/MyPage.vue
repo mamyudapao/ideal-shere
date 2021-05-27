@@ -47,7 +47,7 @@
       </span>
       <span id="joined_projects">
         <h4>参加</h4>
-        <router-link to="">
+        <router-link :to="`${$store.getters.user_id}/joined_projects`">
           <p>{{user.projects.length}}</p>
         </router-link>
       </span>
