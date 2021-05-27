@@ -8,6 +8,7 @@ import store from './store';
 import Article from './pages/Article';
 import GroupChat from './pages/GroupChat';
 import ChatRoom from './pages/ChatRoom';
+import MadeProjects from './pages/MadeProjects'
 
 
 
@@ -61,6 +62,11 @@ export default new Router({
             path: '/mypage/:id',
             component: MyPage,
             name: 'mypage'
+        },
+        {
+            path: '/mypage/:id/made_projects',
+            component: MadeProjects,
+            name: 'made_projects'
         },
         {
             path: '/chat-room/',

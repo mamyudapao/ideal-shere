@@ -106,7 +106,6 @@ export default {
   async mounted() {
     await this.getArticle();
     await this.getComments();
-    await this.getMembers();
   },
   computed: {
     access_token() {
@@ -144,15 +143,7 @@ export default {
           }
         });
     },
-    getMembers: async function() {
-      await axios
-        .get(
-          `http://127.0.0.1:8000/api/posts/${this.$route.params.id}/list_members`
-        )
-        .then((response) => {
-          this.members = response.data;
-        });
-    },
+    
     postComment: async function() {
       // TODO: created_atを日本標準時間で投稿
       await axios

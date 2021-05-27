@@ -41,11 +41,15 @@
     <div class="projects-group">
       <span id="made_projects">
         <h4>投稿</h4>
-        <p>{{user.made_projects}}</p>
+        <router-link :to="`${$store.getters.user_id}/made_projects`">
+          <p>{{user.made_projects}}</p>
+        </router-link>
       </span>
       <span id="joined_projects">
         <h4>参加</h4>
-        <p>{{user.projects.length}}</p>
+        <router-link to="">
+          <p>{{user.projects.length}}</p>
+        </router-link>
       </span>
     </div>
     <button class="btn btn-primary" id="edit_save" @click="updateUserProfile">Save</button>
