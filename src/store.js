@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
+import axios from './api-axios';
 import router from './router';
 
 Vue.use(Vuex)
@@ -48,7 +48,7 @@ export default new Vuex.Store({
         signin({
             dispatch
         }, authData) {
-            axios.post('http://127.0.0.1:8000/dj-rest-auth/registration/', {
+            axios.post('/dj-rest-auth/registration/', {
                     email: authData.email,
                     username: authData.username,
                     password1: authData.password,
@@ -66,7 +66,7 @@ export default new Vuex.Store({
         login({
             dispatch
         }, authData) {
-            axios.post('http://127.0.0.1:8000/dj-rest-auth/login/', {
+            axios.post('/dj-rest-auth/login/', {
                     username: authData.username,
                     password: authData.password,
                 })
@@ -93,7 +93,7 @@ export default new Vuex.Store({
         async refreshAccessToken({
             dispatch
         }, refresh) {
-            await axios.post("http://127.0.0.1:8000/dj-rest-auth/token/refresh/", {
+            await axios.post("/dj-rest-auth/token/refresh/", {
                 refresh: refresh
             }).then(response => {
                 dispatch('setAuthData', {
