@@ -38,6 +38,20 @@
       v-model="introduction"
       @blur="introduction_edit = false"
     />
+    <div class="projects-group">
+      <span id="made_projects">
+        <h4>投稿</h4>
+        <router-link :to="`${$store.getters.user_id}/made_projects`">
+          <p>{{user.made_projects}}</p>
+        </router-link>
+      </span>
+      <span id="joined_projects">
+        <h4>参加</h4>
+        <router-link :to="`${$store.getters.user_id}/joined_projects`">
+          <p>{{user.projects.length}}</p>
+        </router-link>
+      </span>
+    </div>
     <button class="btn btn-primary" id="edit_save" @click="updateUserProfile">Save</button>
   </div>
 </template>
@@ -104,5 +118,15 @@ export default {
   position: relative;
   top: 40vh;
   left: 85vh;
+}
+.projects-group {
+  display: flex;
+  justify-content: center;
+}
+#made_projects{
+  margin: 1rem;
+}
+#joined_projects {
+  margin: 1rem;
 }
 </style>

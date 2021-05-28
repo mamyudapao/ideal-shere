@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../api-axios";
 import PostCard from "../components/modules/PostCard";
 export default {
   data() {
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     get: async function() {
-      await axios.get("http://127.0.0.1:8000/api/posts/").then((response) => {
+      await axios.get("/api/posts/").then((response) => {
         console.log("aaa")
         this.articles = response.data;
       });

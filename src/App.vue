@@ -16,9 +16,11 @@
       @get-chat-room="getChatRoom($event)"
       @send-message="sendMessage($event)"
       @getUserProjects="getUser()"
+      @getMadeProjects="getMadeProjects()"
       :user="user"
       :user-projects="projects"
       :messages="messages"
+      :madeProjects="madeProjects"
     ></router-view>
   </div>
 </template>
@@ -26,7 +28,7 @@
 <script>
 import LoggedInHeader from "./components/modules/LoggedInHeader";
 import LoggedOutHeader from "./components/modules/LoggedOutHeader";
-import axios from "axios";
+import axios from "./api-axios";
 export default {
   name: "App",
   components: {
@@ -39,6 +41,7 @@ export default {
       projects: null,
       notifications: null,
       messages: null,
+      madeProjects: null,
     };
   },
   mounted() {
@@ -60,7 +63,7 @@ export default {
     },
     getUser: async function() {
       await axios
-        .get(`http://localhost:8000/users/${this.$store.getters.user_id}`)
+        .get(`/users/${this.$store.getters.user_id}`)
         .then((response) => {
           console.log(response.data);
           this.user = response.data;
@@ -73,7 +76,7 @@ export default {
       fd.append("image", event);
       await axios
         .patch(
-          `http://localhost:8000/users/${this.$store.getters.user_id}`,
+          `/users/${this.$store.getters.user_id}`,
           fd,
           {
             headers: {
@@ -90,7 +93,7 @@ export default {
       console.log(event);
       axios
         .patch(
-          `http://localhost:8000/users/${this.$store.getters.user_id}`,
+          `/users/${this.$store.getters.user_id}`,
           {
             username: event.username,
             introduction: event.introduction,
@@ -107,7 +110,7 @@ export default {
     },
     getNotifications: async function() {
       axios
-        .get(`http://localhost:8000/api/notifications/`, {
+        .get(`/api/notifications/`, {
           headers: {
             Authorization: `Bearer ${this.access_token}`,
           },
@@ -122,7 +125,7 @@ export default {
     },
     checkNotification: async function(event) {
       await axios.patch(
-        `http://localhost:8000/api/notifications/${event.id}`,
+        `/api/notifications/${event.id}`,
         {
           checked: true,
         },
@@ -137,7 +140,7 @@ export default {
     getChatRoom: async function(room) {
       console.log(room);
       axios
-        .get(`http://127.0.0.1:8000/api/chat/`, {
+        .get(`/api/chat/`, {
           params: {
             room: room,
           },
@@ -159,7 +162,7 @@ export default {
     sendMessage: function(data) {
       axios
         .post(
-          `http://127.0.0.1:8000/api/chat/`,
+          `/api/chat/`,
           {
             message: data.message,
             room: data.room,
@@ -176,6 +179,13 @@ export default {
           this.getChatRoom(data.room);
         });
     },
+    getMadeProjects: async function() {
+      axios.get(`api/posts/user/${this.$store.getters.user_id}`,{ headers: {
+        Authorization: `Bearer ${this.access_token}`
+      }}).then((response) =>{
+        this.madeProjects = response.data;
+      })
+    }
   },
 };
 </script>
