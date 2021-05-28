@@ -28,6 +28,9 @@
         >
           送信する
         </button>
+        <button type="button" class="btn btn-info" id="test-user" @click="testLogin">
+          テストユーザーでログイン!
+        </button>
       </div>
     </div>
   </div>
@@ -46,6 +49,24 @@ export default {
       await this.$store.dispatch("login", {
         username: this.username,
         password: this.password,
+      });
+      setTimeout(() => {
+        if (
+          localStorage.getItem("user_id") == undefined ||
+          localStorage.getItem("user_id") == null
+        ) {
+          this.failedNotification();
+        }else {
+          this.successNotification();
+        }
+      }, 300);
+      this.username = "";
+      this.password = "";
+    },
+    testLogin: async function() {
+      await this.$store.dispatch("login", {
+        username: "testMan",
+        password: "testPassword",
       });
       setTimeout(() => {
         if (
@@ -93,5 +114,10 @@ export default {
 #submit {
   margin-top: 1.5rem;
   margin-bottom: 0;
+}
+#test-user {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  margin-left: 1rem;
 }
 </style>
