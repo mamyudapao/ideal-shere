@@ -1,14 +1,18 @@
 <template>
   <div>
-    <h2>
-      <img
-        class="author-image"
-        :src="'http://localhost:8000' + article.author_image"
-        alt=""
-        srcset=""
-      />
-      {{ article.author_name }}
-    </h2>
+    <router-link class="user-profile-button container" :to="{name: 'user_profile', params: {id: article.user}}">
+
+      <h2>
+        <img
+          class="author-image"
+          :src="'http://localhost:8000' + article.author_image"
+          alt=""
+          srcset=""
+        />
+        {{ article.author_name }}
+      </h2>
+    </router-link>
+
     <h1>{{ article.title }}</h1>
 
     <p class="container article-detail">
@@ -52,13 +56,16 @@
     <div class="commentsection container">
       <hr />
       <div class="comments" v-for="comment in comments" :key="comment.id">
-        <h4 class="username">
-          <img
-            :src="'http://localhost:8000' + comment.author_image"
-            class="comment-author"
-          />
-          {{ comment.author }}
-        </h4>
+        <router-link :to="{name: 'user_profile', params: {id: comment.author_id}}" class="user-profile-button">
+
+          <h4 class="username">
+            <img
+              :src="'http://localhost:8000' + comment.author_image"
+              class="comment-author"
+            />
+            {{ comment.author }}
+          </h4>
+        </router-link>
         <p>
           {{ comment.content }}
         </p>
@@ -242,13 +249,13 @@ export default {
 button {
   display: block;
 }
-
 .author-image {
   width: 50px;
   height: 50px;
   border: 1px solid;
   border-radius: 50%;
 }
+
 .comment-author {
   width: 50px;
   height: 50px;
@@ -304,5 +311,9 @@ button {
   position: fixed;
   top: 90vh;
   right: 10vh;
+}
+.user-profile-button{
+  text-decoration: none;
+  color: inherit;
 }
 </style>

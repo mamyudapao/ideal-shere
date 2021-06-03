@@ -108,7 +108,7 @@ export default new Vuex.Store({
             dispatch
         }, authData) {
             const now = new Date();
-            const expiryTimeMs = now.getTime() + 5 * 60 * 1000;
+            const expiryTimeMs = now.getTime() + 60 * 60 * 1000;
             commit('updatedAccess', authData.access_token);
             commit('updateUserId', authData.user_id);
             commit('updateUserId', authData.user_id);
@@ -118,7 +118,7 @@ export default new Vuex.Store({
             localStorage.setItem('user_id', authData.user_id);
             setTimeout(() => {
                 dispatch('refreshAccessToken', authData.refresh_token);
-            }, 5 * 60 * 1000)
+            }, 60 * 60 * 1000)
         }
     }
 

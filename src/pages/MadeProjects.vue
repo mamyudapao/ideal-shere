@@ -24,7 +24,7 @@
     },
     methods: {
       getMadePosts: function(){
-        this.$emit('getMadeProjects');
+        this.$emit('getMadeProjects',{user_id: this.$route.params['id']});
       }
     }
   }

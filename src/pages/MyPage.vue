@@ -7,7 +7,7 @@
       @input="$emit('profile_image', $event.target.files[0])"
     />
     <button @click="btnClick" id="profile-image-button">
-      <img :src="user.image" id="profile-image" />
+      <img :src="user.image" class="profile-image" />
     </button>
     <div class="form-group">
       <h1 v-if="!username_edit" @click="username_edit = true">
@@ -104,7 +104,7 @@ export default {
   display: inline;
 }
 
-#profile-image {
+.profile-image {
   height: 250px;
   width: 250px;
   border-radius: 50%;

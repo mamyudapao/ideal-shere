@@ -69,6 +69,7 @@
           <button type="button" @click="logout" id="logout-button">
             <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
           </button>
+
         </div>
       </div>
     </nav>
