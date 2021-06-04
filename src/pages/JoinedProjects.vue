@@ -2,7 +2,7 @@
   <div>
     参加中のプロジェクト
     <div class="container">
-      <div class="card" v-for="project in userProjects" :key="project.id">
+      <div class="card" v-for="project in userJoinProjects" :key="project.id">
         <div class="card-body">
           <h5 class="card-title">{{ project.title }}</h5>
           <p class="card-text">{{ project.detail }}</p>
@@ -20,7 +20,15 @@
 
 <script>
 export default {
-  props: ["user-projects"],
+  props: ["userJoinProjects"],
+  mounted() {
+    this.getUserJoinProject()
+  },
+  methods: {
+    getUserJoinProject: function() {
+      this.$emit("getUserJoinProjects", {user_id: this.$route.params.id})
+    }
+  }
 };
 </script>
 

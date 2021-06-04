@@ -16,9 +16,11 @@
       @get-chat-room="getChatRoom($event)"
       @send-message="sendMessage($event)"
       @getUserProjects="getUser()"
-      @getMadeProjects="getMadeProjects()"
+      @getUserJoinProjects="getUserJoinProjects($event)"
+      @getMadeProjects="getMadeProjects($event)"
       :user="user"
       :user-projects="projects"
+      :userJoinProjects="userJoinProjects"
       :messages="messages"
       :madeProjects="madeProjects"
     ></router-view>
@@ -42,6 +44,7 @@ export default {
       notifications: null,
       messages: null,
       madeProjects: null,
+      userJoinProjects: null,
     };
   },
   mounted() {
@@ -179,13 +182,21 @@ export default {
           this.getChatRoom(data.room);
         });
     },
-    getMadeProjects: async function() {
-      axios.get(`api/posts/user/${this.$store.getters.user_id}`,{ headers: {
+    getMadeProjects: async function(event) {
+      axios.get(`api/posts/user/${event.user_id}`,{ headers: {
         Authorization: `Bearer ${this.access_token}`
       }}).then((response) =>{
         this.madeProjects = response.data;
       })
-    }
+    },
+    getUserJoinProjects: async function(event) {
+      axios.get(`/users/${event.user_id}`,{ headers: {
+        Authorization: `Bearer ${this.access_token}`
+      }}).then((response) =>{
+        console.log(response.data);
+        this.userJoinProjects = response.data.projects;
+      })
+    },
   },
 };
 </script>

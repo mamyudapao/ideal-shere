@@ -10,6 +10,7 @@ import GroupChat from './pages/GroupChat';
 import ChatRoom from './pages/ChatRoom';
 import MadeProjects from './pages/MadeProjects'
 import JoinedProjects from './pages/JoinedProjects'
+import UserProfile from './pages/UserProfile'
 
 
 
@@ -73,6 +74,11 @@ export default new Router({
             path: '/mypage/:id/joined_projects',
             component: JoinedProjects,
             name: 'joined_projects'
+        },
+        {
+            path: '/user/:id',
+            component: UserProfile,
+            name: 'user_profile'
         },
         {
             path: '/chat-room/',

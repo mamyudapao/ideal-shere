@@ -7,7 +7,7 @@
           <div class="message is-author">
             <div class="message-icon is-author"></div>
             <p class="message-text">
-              {{ message.user_name }}: {{ message.message }}<br>
+              <router-link :to="{name: 'user_profile', params: {id: message.user}}">{{ message.user_name }}</router-link>: {{ message.message }}<br>
               {{ message.created_at }}
             </p>
           </div>
@@ -16,7 +16,7 @@
           <div class="message not-author">
             <div class="message-icon"></div>
             <p class="message-text">
-              {{ message.user_name }}: {{ message.message }}<br />
+              <router-link :to="{name: 'user_profile', params: {id: message.user}}">{{ message.user_name }}</router-link>: {{ message.message }}<br />
               {{ message.created_at }}
             </p>
           </div>
