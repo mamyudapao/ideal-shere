@@ -5,7 +5,7 @@
       <h2>
         <img
           class="author-image"
-          :src="'http://localhost:8000' + article.author_image"
+          :src="article.author_image"
           alt=""
           srcset=""
         />
@@ -60,7 +60,7 @@
 
           <h4 class="username">
             <img
-              :src="'http://localhost:8000' + comment.author_image"
+              :src="comment.author_image"
               class="comment-author"
             />
             {{ comment.author }}
