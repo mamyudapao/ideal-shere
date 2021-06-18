@@ -8,6 +8,7 @@ import store from './store';
 import Article from './pages/Article';
 import GroupChat from './pages/GroupChat';
 import ChatRoom from './pages/ChatRoom';
+import OpenChat from './pages/OpenChat'
 import MadeProjects from './pages/MadeProjects'
 import JoinedProjects from './pages/JoinedProjects'
 import UserProfile from './pages/UserProfile'
@@ -89,6 +90,11 @@ export default new Router({
             path: '/chat-room/:id',
             component: ChatRoom,
             name: 'chat-room'
+        },
+        {
+            path: '/open-chat',
+            component: OpenChat,
+            name: 'open-chat'
         },
     ]
 })

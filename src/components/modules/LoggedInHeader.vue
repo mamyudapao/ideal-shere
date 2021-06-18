@@ -40,10 +40,16 @@
                       :key="notification.id"
                     >
                       <div v-if="notification.action == 'Like'">
-                        <b-dropdown-item @click="checkNotification(notification)">あなたのコメントにいいねがつきました！</b-dropdown-item>
+                        <b-dropdown-item
+                          @click="checkNotification(notification)"
+                          >あなたのコメントにいいねがつきました！</b-dropdown-item
+                        >
                       </div>
                       <div v-else-if="notification.action == 'Comment'">
-                        <b-dropdown-item @click="checkNotification(notification)">あなたの投稿にコメントがつきました！</b-dropdown-item>
+                        <b-dropdown-item
+                          @click="checkNotification(notification)"
+                          >あなたの投稿にコメントがつきました！</b-dropdown-item
+                        >
                       </div>
                     </div>
                   </b-dropdown>
@@ -55,8 +61,19 @@
                 </div>
               </li>
               <li class="nav-item">
-                <router-link to="/chat-room" class="nav-link active" aria-current="page"
+                <router-link
+                  to="/chat-room"
+                  class="nav-link active"
+                  aria-current="page"
                   >グループチャット</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/open-chat"
+                  class="nav-link active"
+                  aria-current="page"
+                  >オープンチャット</router-link
                 >
               </li>
             </ul>
@@ -69,7 +86,6 @@
           <button type="button" @click="logout" id="logout-button">
             <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
           </button>
-
         </div>
       </div>
     </nav>
@@ -102,33 +118,39 @@ export default {
     logout() {
       this.$store.dispatch("logout");
     },
-    send_post:async function(event) {
+    send_post: async function(event) {
       this.post = event;
-      await axios.post(
-        "/api/posts/",
-        {
-          title: this.post.title,
-          detail: this.post.detail,
-          member_number: this.post.member_number,
-          invitation: this.post.invitation,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.access_token}`,
+      await axios
+        .post(
+          "/api/posts/",
+          {
+            title: this.post.title,
+            detail: this.post.detail,
+            member_number: this.post.member_number,
+            invitation: this.post.invitation,
           },
-        }
-      ).then(() => {
-        this.successPostNotification();
-      }).catch(() => {
-        this.failedPostNotification();
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${this.access_token}`,
+            },
+          }
+        )
+        .then(() => {
+          this.successPostNotification();
+        })
+        .catch(() => {
+          this.failedPostNotification();
+        });
       this.$emit("refresh-articles");
     },
     updateUserIcon: function(event) {
       console.log(event);
     },
     checkNotification: function(notification) {
-      this.$router.push({name: 'detail', params: {id: notification.post_id}});
+      this.$router.push({
+        name: "detail",
+        params: { id: notification.post_id },
+      });
       this.$emit("check-notification", notification);
     },
     successPostNotification: function() {

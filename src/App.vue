@@ -18,11 +18,14 @@
       @getUserProjects="getUser()"
       @getUserJoinProjects="getUserJoinProjects($event)"
       @getMadeProjects="getMadeProjects($event)"
+      @getOpenChatMessages="getOpenChatMessages()"
+      @sendOpenChatMessage="sendOpenChatMessage($event)"
       :user="user"
       :user-projects="projects"
       :userJoinProjects="userJoinProjects"
       :messages="messages"
       :madeProjects="madeProjects"
+      :open_chat_messages="open_chat_messages"
     ></router-view>
   </div>
 </template>
@@ -31,6 +34,7 @@
 import LoggedInHeader from "./components/modules/LoggedInHeader";
 import LoggedOutHeader from "./components/modules/LoggedOutHeader";
 import axios from "./api-axios";
+import firebase_api from "./firebase-api";
 export default {
   name: "App",
   components: {
@@ -45,6 +49,7 @@ export default {
       messages: null,
       madeProjects: null,
       userJoinProjects: null,
+      open_chat_messages: null,
     };
   },
   mounted() {
@@ -61,7 +66,7 @@ export default {
     },
   },
   methods: {
-    refresh_article:async function() {
+    refresh_article: async function() {
       await this.$refs.home.get();
     },
     getUser: async function() {
@@ -78,15 +83,11 @@ export default {
       const fd = new FormData();
       fd.append("image", event);
       await axios
-        .patch(
-          `/users/${this.$store.getters.user_id}`,
-          fd,
-          {
-            headers: {
-              Authorization: `Bearer ${this.access_token}`,
-            },
-          }
-        )
+        .patch(`/users/${this.$store.getters.user_id}`, fd, {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        })
         .then((response) => {
           console.log(response);
         });
@@ -183,19 +184,53 @@ export default {
         });
     },
     getMadeProjects: async function(event) {
-      axios.get(`api/posts/user/${event.user_id}`,{ headers: {
-        Authorization: `Bearer ${this.access_token}`
-      }}).then((response) =>{
-        this.madeProjects = response.data;
-      })
+      axios
+        .get(`api/posts/user/${event.user_id}`, {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        })
+        .then((response) => {
+          this.madeProjects = response.data;
+        });
     },
     getUserJoinProjects: async function(event) {
-      axios.get(`/users/${event.user_id}`,{ headers: {
-        Authorization: `Bearer ${this.access_token}`
-      }}).then((response) =>{
-        console.log(response.data);
-        this.userJoinProjects = response.data.projects;
-      })
+      axios
+        .get(`/users/${event.user_id}`, {
+          headers: {
+            Authorization: `Bearer ${this.access_token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.userJoinProjects = response.data.projects;
+        });
+    },
+    getOpenChatMessages: function() {
+      const messagesRef = firebase_api.database().ref("open_chat");
+      messagesRef.on("value", (snapshot) => {
+        const data = snapshot.val();
+        let open_chat_messages = [];
+        Object.keys(data).forEach((key) => {
+          open_chat_messages.push({
+            id: key,
+            username: data[key].username,
+            content: data[key].content,
+            user_id: data[key].user_id,
+          });
+        });
+        this.open_chat_messages = open_chat_messages;
+      });
+    },
+    sendOpenChatMessage: function(event) {
+      const messageRef = firebase_api.database().ref("open_chat");
+
+      const message = {
+        username: this.user.username,
+        content: event,
+        user_id: this.user.id,
+      };
+      messageRef.push(message);
     },
   },
 };
